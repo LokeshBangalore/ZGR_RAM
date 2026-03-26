@@ -1,0 +1,10 @@
+@Metadata.layer: #CUSTOMER
+annotate entity ZC_GR_TRAVEL
+    with 
+{
+
+    @UI:{
+        lineItem: [{ position: 5, label: 'GR Agent' }]
+    }
+    AgencyId;    
+}
