@@ -1,0 +1,184 @@
+@Metadata.layer: #CORE
+
+@Search.searchable: true
+
+@UI.headerInfo: {
+    typeName: 'Travel(GR)',
+    typeNamePlural: 'Travels(GR)'
+//    typeImageUrl: '',
+//    imageUrl: '',
+//    title: {
+//        type: #STANDARD,
+//        label: '',
+//        iconUrl: '',
+//        criticality: '',
+//        criticalityRepresentation: #WITHOUT_ICON,
+//        value: '',
+//        valueQualifier: '',
+//        targetElement: '',
+//        url: ''
+//    },
+//    description: {
+//        type: #STANDARD,
+//        label: '',
+//        iconUrl: '',
+//        criticality: '',
+//        criticalityRepresentation: #WITHOUT_ICON,
+//        value: '',
+//        valueQualifier: '',
+//        targetElement: '',
+//        url: ''
+//    }
+}
+
+
+@UI.selectionVariant: [{
+    qualifier: 'ALL',
+//    id: '',
+    text: 'All Records'
+//    parameters: [{
+//        name: '',
+//        value: ''
+//    }],
+//    filter: ''
+},
+{ qualifier: 'Open', text: 'Open Records', filter: 'OverallStatus EQ "O"'},
+{ qualifier: 'Accepted', text: 'Accepted Records', filter: 'OverallStatus EQ "A"'}
+]
+
+@UI.presentationVariant: [{
+    qualifier: 'GR_ALL',
+//    id: '',
+    text: 'Presentation All',
+    maxItems: 200,
+    sortOrder: [{
+        by: 'TravelId',
+        direction: #DESC
+    }],
+    groupBy: [ 'AgencyId' ],
+//    totalBy: [ '' ],
+//    total: [ '' ],
+//    includeGrandTotal: true,
+//    initialExpansionLevel: ,
+//    recursiveHierarchyQualifier: '',
+    requestAtLeast: [ 'TravelId', 'OverallStatus' ],
+    visualizations: [{
+        type: #AS_LINEITEM
+//        qualifier: '',
+//        element: ''
+    }],
+    selectionFieldsQualifier: 'ALL'
+},
+{
+    qualifier: 'GR_Accepted',
+//    id: '',
+    text: 'Presentation Accepted',
+    maxItems: 19,
+    sortOrder: [{
+        by: 'TravelId',
+        direction: #ASC
+    }],
+    groupBy: [ 'CustomerId' ],
+//    totalBy: [ '' ],
+//    total: [ '' ],
+//    includeGrandTotal: true,
+//    initialExpansionLevel: ,
+//    recursiveHierarchyQualifier: '',
+    requestAtLeast: [ 'TravelId', 'OverallStatus' ],
+    visualizations: [{
+        type: #AS_LINEITEM
+//        qualifier: '',
+//        element: ''
+    }],
+    selectionFieldsQualifier: 'Accepted'
+}
+
+]
+
+@UI.selectionPresentationVariant: [{
+    qualifier: 'GR_SPV_ALL',
+//    id: '',
+    text: 'GR SP ALL',
+    selectionVariantQualifier: 'ALL',
+    presentationVariantQualifier: 'GR_ALL'
+},
+{
+    qualifier: 'GR_SPV_Accepted',
+//    id: '',
+    text: 'GR SP Accepted',
+    selectionVariantQualifier: 'Accepted',
+    presentationVariantQualifier: 'GR_Accepted'
+}
+]
+
+
+
+annotate entity ZC_GR_TRAVEL_M with
+{
+
+  @UI: {
+      lineItem: [{ position: 10 }]
+  }
+  @Search: {
+    defaultSearchElement: true,
+    fuzzinessThreshold: 0.4
+  }
+  TravelId;
+
+  @UI: {
+      lineItem: [{ position: 20 }],
+      selectionField: [{ position: 10 }]
+  }
+  @Search.defaultSearchElement: true
+  @Consumption.valueHelpDefinition: [{ entity: { name: '/DMO/I_Agency',
+                                                 element: 'AgencyID' } }]
+  AgencyId;
+
+  @UI: {
+      lineItem: [{ position: 30 }],
+      selectionField: [{ position: 20 }]
+  }
+  @Search.defaultSearchElement: true
+  @Consumption.valueHelpDefinition: [{ entity: { name: '/DMO/I_Customer',
+                                                 element: 'CustomerID' } }]
+  CustomerId;
+  //  CustomerName;
+
+  @UI: {
+      lineItem: [{ position: 40 }]
+  }
+  BeginDate;
+
+  @UI: {
+      lineItem: [{ position: 50 }]
+  }
+  EndDate;
+
+  //  BookingFee;
+
+  @UI: {
+      lineItem: [{ position: 60 }]
+  }
+  TotalPrice;
+
+  //  CurrencyCode;
+
+  @UI: {
+      lineItem: [{ position: 70 }],
+      textArrangement: #TEXT_ONLY,
+      selectionField: [{ position: 30 }]
+  }
+  @Search.defaultSearchElement: true
+  @Consumption.valueHelpDefinition: [{ entity: { name: '/DMO/I_Overall_Status_VH',
+                                                 element: 'OverallStatus' }  }]
+  OverallStatus;
+
+  //  @UI: {
+  //      lineItem: [{ position: 10 }]
+  //  }
+  //  OverallStatusText;
+
+  //  Description;
+  //  LastChangedAt;
+
+}
